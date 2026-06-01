@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask App</title>
+</head>
+<body>
+
+    <h1>Hello Flask</h1>
+    <p>This is {{user}} webpage.</p>
+    
+    <form method="POST" action="/" enctype="multipart/form-data">
+
+    Name:<input type="text" name="username">
+    Age:<input type="number" name="age">
+    mobile:<input type="number" name="phone">
+    password:<input type='text' name="password">
+    email:<input type="email" name="email">
+    <button type="submit">
+        Upload
+    </button>
+
+</form>
+<br>
+<form method="POST" action="/login" enctype="multipart/form-data">
+name:<input type="text" name="name">
+password:<input type="text" name="password">
+<button type="submit">
+    login
+</button>
+</form>
+
+<form action="/logout">
+    <button type="submit">
+        logout
+    </button>
+
+</form>
+
+</body>
+</html>
