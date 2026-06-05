@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 from flask_mail import Message,Mail
 from redis import Redis
+from tensorflow.keras.models import load_model
 
 import os 
 from dotenv import load_dotenv
@@ -27,6 +28,7 @@ db= SQLAlchemy(app)
 
 lm.init_app(app)
 
+model = load_model('model/pneumonia.keras')
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -65,6 +67,10 @@ def verify(token):
         return '<h1>Invalid link</h1>',400
     return '<h1>Email verified!</h1>'
 
+@app.route('/predict',methods=['GET','POST'])
+def predict():
+    return
+
 
 @app.route('/',methods=['GET','POST'])
 def home():
@@ -102,7 +108,7 @@ def home():
 @app.route('/user/<name>')
 def user(name):
     return render_template('index.html',user=name)
-
+ 
 @app.route('/image',methods=['POST'])
 def image():
    im = request.files['image']
