@@ -10,14 +10,14 @@ val_dir = "dataset/chest_xray/val"
 
 train_ds = tf.keras.utils.image_dataset_from_directory(
     train_dir ,
-    subset='training',
+    # subset='training',
     seed=123,
     image_size=(img_h,img_w),
     batch_size=batch_size
 )
 val_ds = tf.keras.utils.image_dataset_from_directory(
     train_dir,
-    subset='validation',
+    # subset='validation',
     seed=123,
     image_size=(img_h,img_w),
     batch_size=batch_size
@@ -70,3 +70,13 @@ model.add(Dropout(0.5))
 
 model.add(Dense(1,activation='sigmoid'))
 
+model.compile(optimizer='adam',loss='binary_crossentropy')
+
+model.fit(x=train_ds,validation_data=val_ds,epochs=2)
+
+loss,accuracy=model.evaluate(test_ds,verbose=2)
+
+print(f'Loss is {loss}')
+print(f'Accuracy is {accuracy}')
+
+model.save('pneumonia.keras')
