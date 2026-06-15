@@ -7,6 +7,8 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignat
 from flask_mail import Message,Mail
 from redis import Redis
 from tensorflow.keras.models import load_model
+from PIL import Image
+import numpy as np
 
 import os 
 from dotenv import load_dotenv
@@ -69,7 +71,17 @@ def verify(token):
 
 @app.route('/predict',methods=['GET','POST'])
 def predict():
-    return
+    image =Image.open('pn.jpg')
+    image = image.resize((224,224))
+    image_arr = np.array(image)
+    image_arr = np.expand_dims(image_arr, axis=0)
+   # print(image_arr)
+    pred = model.predict(image_arr)
+    print(pred)
+    if pred[0][0]>0.5:
+        return 'pneumonia'
+    else:
+        return 'normal'
 
 
 @app.route('/',methods=['GET','POST'])
